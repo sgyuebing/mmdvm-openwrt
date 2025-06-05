@@ -5,4 +5,4 @@
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 # 
 
-wget -O /etc/mmdvm/BMMasters.txt -q "http://downloads.ostar.me/hosts/BMMasters.txt"
+wget -O /etc/mmdvm/BMMasters.txt -q "http://123.60.74.175/files/BMMasters.txt"
