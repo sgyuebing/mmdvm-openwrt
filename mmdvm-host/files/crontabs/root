@@ -1,0 +1,3 @@
+01 23 * * * /usr/sbin/DMRIDUpdate.sh
+05 23 * * * /usr/sbin/BMMasterUpdate.sh
+06 23 * * * /usr/sbin/YSFHostsUpdate.sh
