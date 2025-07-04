@@ -56,6 +56,8 @@ endef
 
 define Package/${PKG_NAME}/conffiles
 /etc/MMDVM.ini
+/etc/getdmrid
+/etc/crontabs/root
 endef
 
 # define Package/${PKG_NAME}/postinst

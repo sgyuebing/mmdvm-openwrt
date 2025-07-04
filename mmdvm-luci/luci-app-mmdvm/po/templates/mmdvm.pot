@@ -10,6 +10,9 @@ msgstr ""
 msgid "BER"
 msgstr ""
 
+msgid "Transmiting ..."
+msgstr ""
+
 msgid "Callsign"
 msgstr ""
 
@@ -88,6 +91,9 @@ msgid ""
 msgstr ""
 
 msgid "ID"
+msgstr ""
+
+msgid "Pos"
 msgstr ""
 
 msgid "InactivityTimeout"

@@ -10,17 +10,35 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 using namespace utils;
 
-CDMRLookup::CDMRLookup(const string& filepath) :
-m_file_dmrid(filepath + "/DMRIds.dat"),
-m_file_cc(filepath + "/CountryCode.txt"),
-m_table(),
-m_cc()
+bool compareByFirst(const std::pair<unsigned int, std::string>& a,
+                    const std::pair<unsigned int, std::string>& b) {
+    return a.first < b.first;
+}
+
+std::vector<std::pair<unsigned int, std::string>>::iterator find(
+    std::vector<std::pair<unsigned int, std::string>>& sorted_vec,
+    unsigned int key) {
+
+    auto it = std::lower_bound(sorted_vec.begin(), sorted_vec.end(), key, [](std::pair<unsigned int, std::string>& pair, unsigned int key) {
+        return pair.first < key;
+    });
+
+    if (it != sorted_vec.end() && it->first == key) {
+        return it;
+    }
+
+    return sorted_vec.end();
+}
+
+CDMRLookup::CDMRLookup(const string& filename) :
+m_file_dmrid(filename),
+m_vtable()
 {
-	// this->read();
 }
 
 CDMRLookup::~CDMRLookup() {
@@ -29,89 +47,71 @@ CDMRLookup::~CDMRLookup() {
 
 bool CDMRLookup::read() {
 	bool ret = load();
-	ret = loadCountryCode();
-	// bool ret = loadUsers();
-
 	return ret;
 }
 
-string CDMRLookup::find(string callsign) {
-	string line;
+string CDMRLookup::findCallsign(string uid) {
+	string callsign = uid;
+	unsigned int id = 0;
 	try {
-		line = m_table.at(callsign);
-		
+	    id = (unsigned int)::atoi(uid.c_str());
 	} catch (...) {
-		line = "";
+	    id = 0;
 	}
-
-	return line;
+	try {
+		auto it = find(m_vtable, id);
+		if (it == m_vtable.end()) {
+			return callsign;
+		}
+		std::string line = it->second;
+		char buffer[150U];
+		::strcpy(buffer, line.c_str());
+		char* s = buffer;
+		char* p1 = ::strsep(&s, "\t");
+		if (p1 != NULL) {
+			callsign = string(p1);
+		}
+	} catch (...) {
+	}
+	return callsign;
 }
 
-user_t CDMRLookup::findUser(string callsign) {	
+user_t CDMRLookup::findUser(string uid) {
 	user_t user;
-
+	user.callsign = uid;
+	unsigned int id = 0;
 	try {
-		string line = find(callsign);
-		if (line == "") {
+	    id = (unsigned int)::atoi(uid.c_str());
+	} catch (...) {
+	    id = 0;
+	}
+	try {
+		auto it = find(m_vtable, id);
+		if (it == m_vtable.end()) {
 			return user;
 		}
-		
-		const char *buffer = line.c_str();
-		char* s = strdup(buffer);
+		std::string line = it->second;
+		char buffer[150U];
+		::strcpy(buffer, line.c_str());
+		char* s = buffer;
 		char* p1 = ::strsep(&s, "\t");
-		// char* p2 = ::strsep(&s, "\t");
+		char* p2 = ::strsep(&s, "\t");
 		char* p3 = ::strsep(&s, "\t");
 
 		if (p1 != NULL) {
-			user.name = string(p1);
+			user.callsign = string(p1);
 		}
-		// if (p2 != NULL) {
-		// 	user.city = string(p2);
-		// }
+		if (p2 != NULL) {
+			user.name = string(p2);
+		 }
 		if (p3 != NULL) {
-			user.country = m_cc.at(string(p3));
+			user.country = rtrim(string(p3));
 		}
-
 	} catch (...) {
-
 	}
-
 	return user;
 }
 
-bool CDMRLookup::loadCountryCode() {
-	FILE* fp = ::fopen(m_file_cc.c_str(), "rt");
-	if (fp == NULL) {
-		printf("Cannot open the CountryCode lookup file - %s\n", m_file_cc.c_str());
-		return false;
-	}
-
-	m_cc.clear();
-
-	char buffer[100U];
-
-	while (::fgets(buffer, 100U, fp) != NULL) {
-		if (buffer[0U] == '#')
-			continue;
-
-		char *s = buffer;
-		char *p1 = ::strsep(&s, " \t");
-
-		if (p1 != NULL) {
-			string iso = string(p1);
-			m_cc[iso] = rtrim(string(s));
-			// cout << m_cc[iso] << endl;
-		}
-	}
-
-	::fclose(fp);
-
-	size_t size = m_cc.size();
-	if (size == 0U)
-		return false;
-
-	return true;
-}
 
 bool CDMRLookup::load() {
 	FILE* fp = ::fopen(m_file_dmrid.c_str(), "rt");
@@ -120,97 +120,76 @@ bool CDMRLookup::load() {
 		return false;
 	}
 
-	m_table.clear();
+	m_vtable.clear();
 
 	char buffer[150U];
 
 	while (::fgets(buffer, 150U, fp) != NULL) {
 		if (buffer[0U] == '#')
 			continue;
-
-		// char *s = strdup(buffer);
-		char *s = buffer;
-
+		char* s = buffer;
 		char* p1 = ::strsep(&s, " \t");
-		char* p2 = ::strsep(&s, " \t");  // tokenize to eol to capture name as well
-
-		if (p1 != NULL && p2 != NULL) {
-			// unsigned int id = (unsigned int)::atoi(p1);
-			
-			string callsign = string(p2);
-			m_table[callsign] = rtrim(string(s));
-
-			// cout << m_table[callsign] << endl;
+		if (p1 != NULL) {
+			unsigned int id = 0;
+			try {
+			    id = (unsigned int)::atoi(p1);
+			    m_vtable.emplace_back(id, string(s));
+			} catch (...) {
+			    id = 0;
+			}
 		}
 	}
 
 	::fclose(fp);
 
-	size_t size = m_table.size();
+	size_t size = m_vtable.size();
 	if (size == 0U)
 		return false;
-
-	// LogInfo("Loaded %u Ids to the DMR callsign lookup table", size);
 
 	return true;
 }
 
 
-
-/*
-bool CDMRLookup::loadUsers() {
-	FILE* fp = ::fopen(m_filename.c_str(), "rt");
+bool CDMRLookup::append(const string & filename) {
+	FILE* fp = ::fopen(filename.c_str(), "rt");
 	if (fp == NULL) {
-		printf("Cannot open the DMR Id lookup file - %s\n", m_filename.c_str());
+		printf("Cannot open the DMR Id lookup file - %s\n", filename.c_str());
 		return false;
 	}
+        size_t sz = m_vtable.size();
 
-	m_users.clear();
+	char buffer[150U];
+	auto it = m_vtable.begin();
 
-	char buffer[100U];
-
-	while (::fgets(buffer, 100U, fp) != NULL) {
+	while (::fgets(buffer, 150U, fp) != NULL) {
 		if (buffer[0U] == '#')
 			continue;
-
-		user_t user;
-		string callsign;
-		char *s = strdup(buffer);
+		char* s = buffer;
 		char* p1 = ::strsep(&s, " \t");
-		// char* p2 = ::strsep(&s, " \r\n");  // tokenize to eol to capture name as well
-		char* p2 = ::strsep(&s, " \t");
-		char* p3 = ::strsep(&s, "\t");
-		char* p4 = ::strsep(&s, "\t");
-		char* p5 = ::strsep(&s, "\t");
-
-		if (p1 != NULL && p2 != NULL && p3 != NULL) {
-			unsigned int id = (unsigned int)::atoi(p1);
-			callsign = string(p2);
-			
-			// cout << callsign << endl;
-			user.id = id;
-			user.name = string(p3);
+		if (p1 != NULL) {
+			unsigned int id = 0;
+			try {
+				id = (unsigned int)::atoi(p1);
+				it = std::lower_bound(it, m_vtable.end(), id, [](std::pair<unsigned int, std::string>& pair, unsigned int key) {
+				        return pair.first < key;
+				    });
+				if (it == m_vtable.end() || it->first != id ) {
+					it = m_vtable.emplace(it, id, std::string(s));
+				} else {
+					it->second = string(s);
+				}
+			} catch (...) {
+			    id = 0;
+			}
 		}
-
-		if (p4 != NULL) {
-			user.city = string(p4);
-		}
-
-		if (p5 != NULL) {
-			user.country = string(p5);
-		}
-
-		m_users[callsign] = user;
 	}
 
 	::fclose(fp);
 
-	size_t size = m_users.size();
-	if (size == 0U)
+	size_t size = m_vtable.size();
+	if (size == sz )
 		return false;
-
-	// LogInfo("Loaded %u Ids to the DMR callsign lookup table", size);
 	return true;
 }
 
-*/
+			

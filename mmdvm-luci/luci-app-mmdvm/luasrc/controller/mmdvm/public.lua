@@ -68,13 +68,13 @@ function action_logread(type)
 end
 
 function action_dashboard()
-	local lastheard = mmdvm.get_lastheard()
-	luci.template.render("mmdvm/dashboard", {lastheard = lastheard})
+	--- local lastheard = mmdvm.get_lastheard()
+	luci.template.render("mmdvm/dashboard", {})
 end
 
 function action_lastheard()
-	local lastheard = mmdvm.get_lastheard()
-	luci.template.render("mmdvm/lastheard", {lastheard = lastheard})
+	-- local lastheard = mmdvm.get_lastheard()
+	luci.template.render("mmdvm/lastheard", {})
 end
 
 function action_last_pocsag()
@@ -83,11 +83,11 @@ function action_last_pocsag()
 end
 
 function action_livecall()
-	local lastheard = mmdvm.get_lastheard()
-	luci.template.render("mmdvm/livecall", {lastheard = lastheard})
+	-- local lastheard = mmdvm.get_lastheard()
+	luci.template.render("mmdvm/livecall", {})
 end
 
 function action_lc()
-	local lastheard = mmdvm.get_lastheard()
-	luci.template.render("mmdvm/lc", {lastheard = lastheard})
+	-- local lastheard = mmdvm.get_lastheard()
+	luci.template.render("mmdvm/lc", {})
 end

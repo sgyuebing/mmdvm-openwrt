@@ -15,7 +15,7 @@ LUAPATH = /usr/local/Cellar/lua/5.4.4_1/
 # LUAVER = 5.1
 # LUAPATH = /usr/local/Cellar/lua\@5.1/5.1.5_8
 
-CXXFLAGS = -g -O3 -Wall -std=c++0x -I$(LUAPATH)/include/lua$(LUAVER)
+CXXFLAGS = -g -O3 -Wall -std=c++11 -I$(LUAPATH)/include/lua$(LUAVER)
 LDFLAGS = -lm -L$(LUAPATH)/lib -bundle -undefined dynamic_lookup
 
 # CXXFLAGS = -g -O3 -Wall -std=c++0x

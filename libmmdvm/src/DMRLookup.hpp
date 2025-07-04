@@ -7,30 +7,30 @@
 
 #include "DMRId.hpp"
 #include <string>
-#include <unordered_map>
+// #include <unordered_map>
+#include <vector>
+#include <utility>
 
 using namespace std;
 
 class CDMRLookup {
 public:
-	CDMRLookup(const string& filepath);
+	CDMRLookup(const string& filename);
 	virtual ~CDMRLookup();
 
 	bool read();
+	bool append(const string& filename);
 
-	string find(string callsign);
-	user_t findUser(string callsign);
+	string findCallsign(string uid);
+	user_t findUser(string uid);
 
 private:
 	string m_file_dmrid;
-	string m_file_cc;
 
-	unordered_map<string, string> m_table;
-	unordered_map<string, string> m_cc;
+	// unordered_map<unsigned int, string> m_table;
+	vector<pair<unsigned int, string> > m_vtable;
 
 	bool load();
-	bool loadCountryCode();
-	// bool loadUsers();
 };
 
 #endif

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ ! -e /tmp/DMRIds.dat ] || [ `du -b /tmp/DMRIds.dat|awk '{print $1}'` -lt 10 ] || [ $# -gt 0 ]; then
+  curl -sSL https://radioid.net/static/user.csv|sed -e 's/,None/,/g' -e 's/,NULL,/,,/g' -e 's/,NA,/,,/g' -e 's/ ,/,/g'|awk 'BEGIN{FS=","}/^[1-9]/{gsub(/ /,"-",$NF);print $1,$2,$7,$3,$4,"_"}'|awk 'BEGIN{FS=" +";OFS="\t"}{gsub(/-/," ",$3);print $1,$2,$4,$3}'>/tmp/DMRIds-new.dat && diff /rom/etc/mmdvm/DMRIds.dat /tmp/DMRIds-new.dat|grep ^+|grep -v ^+++|sed -e 's/^+//g'>/tmp/DMRIds.dat && rm /tmp/DMRIds-new.dat && /etc/init.d/dmrid restart
+fi

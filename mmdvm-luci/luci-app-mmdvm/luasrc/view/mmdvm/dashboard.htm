@@ -8,7 +8,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
 <%+header%>
 <link rel="stylesheet" href="<%=resource%>/mmdvm.css">
 <div id="lh">
-<% luci.template.render("mmdvm/lastheard", {lastheard = lastheard} ) %>
+<% luci.template.render("mmdvm/lastheard", {} ) %>
 </div>
 <% if luci.model.mmdvm.pocsag_enabled() then %>
 <h2><%:DAPNET Gateway Activity%></h2>

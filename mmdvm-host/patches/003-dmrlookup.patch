@@ -1,0 +1,56 @@
+diff --git a/DMRLookup.cpp b/DMRLookup.cpp
+--- a/DMRLookup.cpp
++++ b/DMRLookup.cpp
+@@ -150,49 +150,5 @@ bool CDMRLookup::exists(unsigned int id)
+
+ bool CDMRLookup::load()
+ {
+-	FILE* fp = ::fopen(m_filename.c_str(), "rt");
+-	if (fp == NULL) {
+-		LogWarning("Cannot open the DMR Id lookup file - %s", m_filename.c_str());
+-		return false;
+-	}
+-
+-	m_mutex.lock();
+-
+-	// Remove the old entries
+-	m_table.clear();
+-
+-	char buffer[100U];
+-	while (::fgets(buffer, 100U, fp) != NULL) {
+-		if (buffer[0U] == '#')
+-			continue;
+-
+-		char* p1 = ::strtok(buffer, " \t\r\n");
+-		char* p2 = ::strtok(NULL, " \r\n");  // tokenize to eol to capture name as well
+-
+-		if (p1 != NULL && p2 != NULL) {
+-			unsigned int id = (unsigned int)::atoi(p1);
+-			for (char* p = p2; *p != 0x00U; p++) {
+-
+-		if(*p == 0x09U)
+-					*p = 0x20U;
+-
+-				else
+-					*p = ::toupper(*p);
+-
+-			}
+-			m_table[id] = std::string(p2);
+-		}
+-	}
+-
+-	m_mutex.unlock();
+-
+-	::fclose(fp);
+-
+-	size_t size = m_table.size();
+-	if (size == 0U)
+-		return false;
+-
+-	LogInfo("Loaded %u Ids to the DMR callsign lookup table", size);
+-
+-	return true;
+-}
+\ No newline at end of file
++	return false;
++}

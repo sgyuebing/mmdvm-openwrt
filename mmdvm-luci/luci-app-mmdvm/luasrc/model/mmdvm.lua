@@ -512,7 +512,6 @@ end
 
 local function get_hearlist(loglines)
 	local headlist = {}
-	local duration, loss, ber, rssi
 	-- local ts1duration, ts1loss, ts1ber, ts1rssi
 	-- local ts2duration, ts2loss, ts2ber, ts2rssi
 	-- local ysfduration, ysfloss, ysfber, ysfrssi
@@ -520,6 +519,7 @@ local function get_hearlist(loglines)
 
 	for i = 1, #loglines do
 		local logline = loglines[i]
+		local duration, loss, ber, rssi
 		-- remoing invaild lines
 		repeat
 			if string.find(logline, "BS_Dwn_Act") or

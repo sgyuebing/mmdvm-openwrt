@@ -10,12 +10,11 @@
 using namespace std;
 
 struct user_t {
-	// int id;
+    string callsign;
     string name;
-	// string city;
     string country;
     bool exist() {
-        return name != "";
+        return callsign != "";
     }
 };
 

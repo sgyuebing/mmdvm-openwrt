@@ -1,0 +1,18 @@
+diff --git a/Conf.cpp b/Conf.cpp
+--- a/Conf.cpp
++++ b/Conf.cpp
+@@ -189,12 +189,12 @@ std::string CConf::getCallsign() const
+ return m_callsign;
+ }
+
+-std::vector<uint32_t> CConf::getWhiteList() const
++std::vector<unsigned int> CConf::getWhiteList() const
+ {
+	return m_whiteList;
+ }
+
+-std::vector<uint32_t> CConf::getBlackList() const
++std::vector<unsigned int> CConf::getBlackList() const
+ {
+	return m_blackList;
+ }
