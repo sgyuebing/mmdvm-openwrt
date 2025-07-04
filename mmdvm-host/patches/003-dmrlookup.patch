@@ -2,7 +2,7 @@ diff --git a/DMRLookup.cpp b/DMRLookup.cpp
 --- a/DMRLookup.cpp
 +++ b/DMRLookup.cpp
 @@ -150,49 +150,5 @@ bool CDMRLookup::exists(unsigned int id)
-
+ 
  bool CDMRLookup::load()
  {
 -	FILE* fp = ::fopen(m_filename.c_str(), "rt");
@@ -27,13 +27,13 @@ diff --git a/DMRLookup.cpp b/DMRLookup.cpp
 -		if (p1 != NULL && p2 != NULL) {
 -			unsigned int id = (unsigned int)::atoi(p1);
 -			for (char* p = p2; *p != 0x00U; p++) {
--
--		if(*p == 0x09U)
+-				
+-				if(*p == 0x09U) 
 -					*p = 0x20U;
--
--				else
+-				
+-				else 
 -					*p = ::toupper(*p);
--
+-				
 -			}
 -			m_table[id] = std::string(p2);
 -		}
