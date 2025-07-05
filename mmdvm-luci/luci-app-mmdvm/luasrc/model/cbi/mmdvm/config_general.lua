@@ -79,7 +79,7 @@ s = m:section(NamedSection, "Modem", "mmdvmhost", translate("Modem Settings"))
 s.anonymous   = true
 o = s:option(ListValue, "Port", translate("Port"), translate("The port of Modem"))
 o:value("NullModem", "NullModem")
-if fs.access("/dev/ttyS1") then o:value("/dev/ttyS1") end
+if fs.access("/dev/ttyS0") then o:value("/dev/ttyS0") end
 if fs.access("/dev/ttyUSB0") then o:value("/dev/ttyUSB0") end
 if fs.access("/dev/ttyUSB0") then o:value("/dev/ttyUSB1") end
 if fs.access("/dev/ttyACM0") then o:value("/dev/ttyACM0") end
