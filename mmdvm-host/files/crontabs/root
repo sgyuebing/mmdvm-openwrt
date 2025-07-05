@@ -1,3 +1,6 @@
-01 23 * * * /usr/sbin/DMRIDUpdate.sh
-05 23 * * * /usr/sbin/BMMasterUpdate.sh
-06 23 * * * /usr/sbin/YSFHostsUpdate.sh
+22 10 * * * root  /usr/sbin/DMRIDUpdate.sh
+# 22 10 * * * root  /usr/sbin/BMMasterUpdate.sh
+# 22 10 * * * root  /usr/sbin/YSFHostsUpdate.sh
+# */10 * * * * /etc/getdmrid
+# 18 18 * * * /etc/getdmrid -
+
