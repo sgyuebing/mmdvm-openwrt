@@ -82,6 +82,7 @@ o:value("NullModem", "NullModem")
 if fs.access("/dev/ttyS0") then o:value("/dev/ttyS0") end
 if fs.access("/dev/ttyUSB0") then o:value("/dev/ttyUSB0") end
 if fs.access("/dev/ttyUSB0") then o:value("/dev/ttyUSB1") end
+if fs.access("/dev/ttyUSB2") then o:value("/dev/ttyUSB2") end
 if fs.access("/dev/ttyACM0") then o:value("/dev/ttyACM0") end
 if fs.access("/dev/ttyAMA0") then o:value("/dev/ttyAMA0") end
 
