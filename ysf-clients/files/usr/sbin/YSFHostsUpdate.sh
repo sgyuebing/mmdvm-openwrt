@@ -8,4 +8,4 @@
 YSFHOSTS=/etc/mmdvm/YSFHosts.txt
 
 # Generate YSFHosts.txt file
-wget -O ${YSFHOSTS} http://downloads.ostar.me/hosts/YSFHosts.txt 
+wget -O ${YSFHOSTS} http://123.60.74.175/files/YSFHosts.txt 
