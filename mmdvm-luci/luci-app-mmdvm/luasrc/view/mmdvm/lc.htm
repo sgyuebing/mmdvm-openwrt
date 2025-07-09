@@ -37,14 +37,13 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
             <label class="callsign"><%=callsign%></label>
         </td>
         <td width="40%">
-            <p><%=user.name or "Unknown"%></p>
-            <p><%=user.country or "Somewhere"%></p>
+            <p><%=user.name or "_" %></p>
+            <p><%=user.country or "_"%></p>
         </td>
         </tr>
     <tr>
-        <td height="40%">
-            <p>Source - <%=lh.source:upper()%></p>
-            <p class="mode"><%=lh.mode%> - <%=lh.target%></p>
+        <td height="20%">
+            <p><%:Src%>: <%=lh.source:upper()%> &nbsp;&nbsp; <%=lh.mode%> - <%=target or lh.target%></p>
             <p>
                 <% for _, mode in ipairs(modes) do %>
                 <label class="mode <%=mode.status%>" title="<%=mode.name%> <%=mode.status%>"><%=mode.name%></label>
@@ -54,16 +53,12 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         <td>
         <p>
         <% if lh.duration then %>
-        <p>Duration <%=lh.duration%>s</p>
-        <p>Loss <%="%0.1f" % {lh.loss} %>%</p>
-        <p>BER <%="%0.1f" % {lh.ber}%>%</p>
+	<p><%:Dur%>: <%=lh.duration%>s</p><p><%:Loss%>: <%="%0.1f" % {lh.loss} %>% &nbsp;&nbsp; <%:BER%>: <%="%0.1f" % {lh.ber}%>%</p>
         <% else 
             local mmdvm = require("luci.model.mmdvm")
             local t = os.time() - mmdvm.s2t(lh.timestamp)
         %>
-        <p>Duration <%=t%>s</p>
-        <p>Transmiting ...</p>
-        <p>&nbsp;</p>
+	<p><%:Dur%> <%=t%>s</p><p><%:Transmiting ...%></p>
         <% end %>
         </p>
         </td>
