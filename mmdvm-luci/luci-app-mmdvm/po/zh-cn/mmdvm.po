@@ -16,7 +16,7 @@ msgid "AuthKey"
 msgstr "密钥"
 
 msgid "BER"
-msgstr "误码"
+msgstr "误码率"
 
 msgid "Transmiting ..."
 msgstr "发射中..."
@@ -77,6 +77,9 @@ msgstr "编辑调制解调器端口、接收/发射偏移量等"
 
 msgid "Enable DMR Mode"
 msgstr "启用DMR模式"
+
+msgid "Enable D-Star Mode"
+msgstr "启用D-Star模式"
 
 msgid "Enable NXDN Mode"
 msgstr "启用NXDN模式"
@@ -293,7 +296,7 @@ msgid "Timeslot"
 msgstr "时隙"
 
 msgid "URL"
-msgstr ""
+msgstr "URL地址"
 
 msgid "Use the format <abbr title=\"the Unit is Hz\">434500000</abbr>, in Hz"
 msgstr "例如434500000，默认单位是赫兹"
@@ -326,3 +329,16 @@ msgstr "比如 114.3 E"
 
 msgid "e.g. 22.10 N"
 msgstr "比如 22.10 N"
+
+msgid "D-Star Settings"
+msgstr "D-Star设置"
+
+msgid "RPT1 Callsign"
+msgstr "RPT1 电台呼号"
+
+msgid "RPT2 Callsign"
+msgstr "RPT2 电台呼号"
+
+msgid "POCSAG Settings"
+msgstr "POCSAG 设置"
+
