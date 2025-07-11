@@ -256,7 +256,7 @@ msgid "Simplex"
 msgstr "单工"
 
 msgid "Src"
-msgstr "源"
+msgstr "来源"
 
 msgid "Startup Reflector"
 msgstr "默认反射器"
