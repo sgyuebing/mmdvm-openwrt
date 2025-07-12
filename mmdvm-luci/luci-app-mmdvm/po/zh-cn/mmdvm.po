@@ -295,6 +295,18 @@ msgstr "时间"
 msgid "Timeslot"
 msgstr "时隙"
 
+msgid"DMR Slot 1"
+msgstr "时隙1"
+
+msgid"DMR Slot 2"
+msgstr "时隙2"
+
+msgid"NET"
+msgstr "网络"
+
+msgid"RF"
+msgstr "本地"
+
 msgid "URL"
 msgstr "URL地址"
 
